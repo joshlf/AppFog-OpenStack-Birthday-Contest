@@ -1,0 +1,67 @@
+/*
+	This code uses a few key features to acheive obfuscation.
+	
+	First is that the data for the output string itself is encoded
+	in ./data, which is a 121,394-line file.  Following the Fibonacci
+	sequence (starting at 1) and using numbers as line numbers yields
+	the ASCII values of the characters of the output string.
+
+	The second obfuscation method employed is a client-side/server-side
+	feedback loop.  On each page load, js is generated which will
+	compute the next Fibonacci number, request the corresponding character,
+	and append it to the current output string.  This done, it redirects
+	the browswer to itself, except that upon page load, http get variables
+	save the state of the machine so that the newly generated js already
+	knows the most up-to-date state, and can thus procede.  The final state
+	is determined when a sentinal character is read from the data file
+	(I use ASCII 33, the exclamation point).
+
+*/
+
+<?php
+		// If the client side has determined that the script is done,
+		// Simply print the output string
+        if (isset($_GET['DONE'])) {
+                echo $_GET['STRING'];
+                exit;
+        }
+
+		// If the client side requests a character, simply respond with it.
+        if (isset($_GET['PLACE'])) {
+                $arr = file("data");
+                echo chr($arr[$_GET['PLACE']]);
+                exit;
+        }
+        $STRING = isset($_GET['STRING']) ? $_GET['STRING'] : "";
+?>
+<html>
+<script type="text/javascript">
+<!--
+s = "<?php echo $STRING; ?>";
+
+// Variables a and b represent the current state of the Fibonacci sequence
+a = <?php echo isset($_GET['a']) ? $_GET['a'] : 1; ?>;
+b = <?php echo isset($_GET['b']) ? $_GET['b'] : 1; ?>;
+
+var xmlhttp;
+xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				// Build up the output string with the new character
+                s = s + xmlhttp.responseText;
+				// Update the Fibonacci numbers
+                b = a + b;
+				// If the latest character read was "!",
+				// Then tell the server to simply output
+                if (!(s.charCodeAt(s.length - 1) - 33)) {
+                        s = s.substring(0,s.length-1) + "&DONE=1";
+                }
+                window.location = "http://public.rhye.org/af/?STRING=" + s + "&a=" + b + "&b=" + a;
+        }
+}
+//Request the new character
+xmlhttp.open("GET", ".?PLACE=" + a, true);
+xmlhttp.send();
+-->
+</script>
+</html>

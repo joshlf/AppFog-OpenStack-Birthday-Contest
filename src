@@ -1,0 +1,17 @@
+/*
+	Source includes file, "data", which can be accessed at ./data
+	Full, unobfuscated, commented code can be found at ./src-full
+*/
+
+<?php
+if (isset($_GET[____])) { echo $_GET[_]; exit; }
+if (isset($_GET['_____'])) { $_ = file("data"); echo chr($_[$_GET['_____']]); exit; }
+$__ = isset($_GET['_']) ? $_GET['_'] : "";
+?>
+<html>
+<script type="text/javascript">
+<!--
+__ = "<?php echo $__; ?>"; _ = <?php echo isset($_GET[__]) ? $_GET[__] : 1; ?>; ___ = <?php echo isset($_GET[___]) ? $_GET[___] : 1; ?>; var ____; ____ = new XMLHttpRequest(); ____.onreadystatechange = function() { if (____.readyState == 4 && ____.status == 200) { __ = __ + ____.responseText; ___ = _ + ___; if (!(__.charCodeAt(__.length - 1) - 33)) { __ = __.substring(0,__.length-1) + "&____=1"; } window.location = ".?_=" + __ + "&__=" + ___ + "&___=" + _; } }; ____.open("GET", ".?_____=" + _, true); ____.send();
+-->
+</script>
+</html>
