@@ -10,3 +10,6 @@ src       - same as index.php (file included for contest regulations)
 src-full  - unobfuscated, commented code
 
 data      - data file (see src-full for explanation)
+
+See the code in action at http://jlf.aws.af.cm/
+===============================================
