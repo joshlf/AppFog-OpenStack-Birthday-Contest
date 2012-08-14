@@ -1,4 +1,8 @@
 <?php
+// Copyright 2012 The Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 if (isset($_GET[____])) { echo $_GET[_]; exit; }
 if (isset($_GET['_____'])) { $_ = file("data"); echo chr($_[$_GET['_____']]); exit; }
 $__ = isset($_GET['_']) ? $_GET['_'] : "";
